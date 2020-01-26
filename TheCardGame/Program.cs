@@ -21,7 +21,7 @@ namespace TheCardGame
             players = new List<Player>
             {
                 //new Human("Peter"),
-                //new Human("Rene"),
+                //new Human("Rene")
                 //new Human("Kenneth"),
                 //new Human("Emil"),
                 new Computer("Computer"),
