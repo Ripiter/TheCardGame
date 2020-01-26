@@ -66,8 +66,7 @@ namespace TheCardGame
 
                     if (nextPlayer >= players.Count)
                         nextPlayer = 0;
-
-
+                    
                     if (players[i].GetType() == typeof(Human))
                     {
                         int cardPlace = UserInput(players[i], players[nextPlayer]);
