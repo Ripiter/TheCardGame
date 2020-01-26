@@ -20,10 +20,12 @@ namespace TheCardGame
             //};
             players = new List<Player>
             {
-                new Human("Peter"),
-                new Human("Rene"),
-                new Human("Kenneth"),
-                new Computer("Computer")
+                //new Human("Peter"),
+                //new Human("Rene"),
+                //new Human("Kenneth"),
+                //new Human("Emil"),
+                new Computer("Computer"),
+                new Computer("Computer2")
             };
 
 
@@ -61,6 +63,11 @@ namespace TheCardGame
             {
                 for (int i = 0; i < players.Count; i++)
                 {
+                    if(CheckForLooser() == true)
+                    {
+                        gameOver = true;
+                        continue;
+                    }
                     //Debug
                     Console.WriteLine("");
                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -88,11 +95,32 @@ namespace TheCardGame
                         Console.ForegroundColor = ConsoleColor.Blue;
                         Console.WriteLine(players[i].Name + " picked card from " + players[nextPlayer].Name);
                         Console.ForegroundColor = ConsoleColor.White;
-                        players[i].TakeCard(players[nextPlayer], new Random().Next(1, players[nextPlayer].PlayersCards.Count));
+                        int testRnd = new Random().Next(1, players[nextPlayer].PlayersCards.Count);
+                        players[i].TakeCard(players[nextPlayer], testRnd);
                     }
                     nextPlayer++;
                 }
             }
+        }
+
+        static bool CheckForLooser()
+        {
+            bool isLooser = false;
+            for(int i = 0; i < players.Count; i++)
+            {
+                if(players.Count > 1)
+                {
+                    if (players[i].PlayersCards.Count == 0)
+                        players.Remove(players[i]);
+                    isLooser = false;
+                }
+                else
+                {
+                    Console.WriteLine("And tonights Big Looser is " + players[i].Name);
+                    isLooser = true;
+                }
+            }
+            return isLooser;
         }
 
         // Debug purposes

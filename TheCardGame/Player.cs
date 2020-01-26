@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TheCardGame
 {
@@ -38,7 +36,7 @@ namespace TheCardGame
 
             player.PlayersCards.Remove(card);
             int rndPos = new Random(DateTime.Now.Millisecond).Next(0, PlayersCards.Count);
-            this.PlayersCards.Insert(rndPos,card);
+            this.PlayersCards.Insert(rndPos, card);
 
             RemovePairs(card);
         }
@@ -63,26 +61,47 @@ namespace TheCardGame
             }
         }
 
+        //public virtual void RemoveAllPairs()
+        //{
+        //    for (int i = 0; i < PlayersCards.ToList().Count; i++)
+        //    {
+        //        foreach (Card card in PlayersCards.ToList())
+        //        {
+        //            if (card.cardNumber == PlayersCards[i].cardNumber && card.cardType != PlayersCards[i].cardType)
+        //            {
+        //                // Debug
+        //                Console.WriteLine("Card from " + this.Name + " removed " + card.cardNumber + " " + card.cardType);
+        //                Console.WriteLine("Card from " + this.Name + " removed " + PlayersCards[i].cardNumber + " " + PlayersCards[i].cardType + " \n");
+        //                // End Debug
+
+        //                //remove pair
+        //                PlayersCards.Remove(PlayersCards[i]);
+        //                PlayersCards.Remove(card);
+        //            }
+        //        }
+        //    }
+        //}
+
         public virtual void RemoveAllPairs()
         {
-            for (int i = 0; i < PlayersCards.ToList().Count; i++)
+            foreach (Card nCard in PlayersCards.ToList())
             {
                 foreach (Card card in PlayersCards.ToList())
                 {
-                    if (card.cardNumber == PlayersCards[i].cardNumber && card.cardType != PlayersCards[i].cardType)
+                    if (card.cardNumber == nCard.cardNumber && card.cardType != nCard.cardType)
                     {
                         // Debug
                         Console.WriteLine("Card from " + this.Name + " removed " + card.cardNumber + " " + card.cardType);
-                        Console.WriteLine("Card from " + this.Name + " removed " + PlayersCards[i].cardNumber + " " + PlayersCards[i].cardType + " \n");
+                        Console.WriteLine("Card from " + this.Name + " removed " + nCard.cardNumber + " " + nCard.cardType + " \n");
                         // End Debug
 
                         //remove pair
-                        PlayersCards.Remove(PlayersCards[i]);
+                        PlayersCards.Remove(nCard);
                         PlayersCards.Remove(card);
                     }
                 }
             }
-
         }
     }
 }
+
