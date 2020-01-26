@@ -63,64 +63,65 @@ namespace TheCardGame
             {
                 for (int i = 0; i < players.Count; i++)
                 {
-                    if(CheckForLooser() == true)
-                    {
+                    if (CheckForLooser() == true)
                         gameOver = true;
-                        continue;
-                    }
-                    //Debug
-                    Console.WriteLine("");
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    for (int j = 0; j < players.Count; j++)
-                    {
-                        Console.WriteLine(players[j].Name + " has " + players[j].PlayersCards.Count + " cards");
-                    }
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine("");
-                    // End debug
 
-                    if (nextPlayer >= players.Count)
-                        nextPlayer = 0;
 
-                    if (players[i].GetType() == typeof(Human))
+
+                    if (gameOver == false)
                     {
-                        Console.WriteLine(players[i].Name + " pick card from " + players[nextPlayer].Name);
-                        Console.WriteLine("Card from 1 to " + players[nextPlayer].PlayersCards.Count);
-                        Console.Write("I pick: ");
-                        int cardPlace = int.Parse(Console.ReadLine());
-                        players[i].TakeCard(players[nextPlayer], cardPlace);
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine(players[i].Name + " picked card from " + players[nextPlayer].Name);
+                        //Debug
+                        Console.WriteLine("");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        for (int j = 0; j < players.Count; j++)
+                        {
+                            Console.WriteLine(players[j].Name + " has " + players[j].PlayersCards.Count + " card(s)");
+                        }
                         Console.ForegroundColor = ConsoleColor.White;
-                        int testRnd = new Random().Next(1, players[nextPlayer].PlayersCards.Count);
-                        players[i].TakeCard(players[nextPlayer], testRnd);
+                        Console.WriteLine("");
+                        // End debug
+
+                        if (nextPlayer >= players.Count)
+                            nextPlayer = 0;
+
+
+                        if (players[i].GetType() == typeof(Human))
+                        {
+                            Console.WriteLine(players[i].Name + " pick card from " + players[nextPlayer].Name);
+                            Console.WriteLine("Card from 1 to " + players[nextPlayer].PlayersCards.Count);
+                            Console.Write("I pick: ");
+                            int cardPlace = int.Parse(Console.ReadLine());
+                            players[i].TakeCard(players[nextPlayer], cardPlace);
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine(players[i].Name + " picked card from " + players[nextPlayer].Name);
+                            Console.ForegroundColor = ConsoleColor.White;
+                            int testRnd = new Random().Next(1, players[nextPlayer].PlayersCards.Count);
+                            players[i].TakeCard(players[nextPlayer], testRnd);
+                        }
                     }
-                    nextPlayer++;
                 }
+
+                nextPlayer++;
             }
         }
 
         static bool CheckForLooser()
         {
-            bool isLooser = false;
-            for(int i = 0; i < players.Count; i++)
+            for (int i = 0; i < players.Count; i++)
             {
-                if(players.Count > 1)
+                if (players[i].PlayersCards.Count == 0)
                 {
-                    if (players[i].PlayersCards.Count == 0)
-                        players.Remove(players[i]);
-                    isLooser = false;
-                }
-                else
-                {
-                    Console.WriteLine("And tonights Big Looser is " + players[i].Name);
-                    isLooser = true;
+                    players.Remove(players[i]);
                 }
             }
-            return isLooser;
+
+            if (players.Count == 1)
+                return true;
+
+            return false;
         }
 
         // Debug purposes
