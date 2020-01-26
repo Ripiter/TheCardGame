@@ -30,7 +30,7 @@ namespace TheCardGame
         /// <summary>
         /// Takes card from another player
         /// </summary>
-        public virtual void TakeCard(Player player, int cardPlace)
+        public virtual string TakeCard(Player player, int cardPlace)
         {
             Card card = player.PlayersCards[cardPlace - 1];
 
@@ -38,12 +38,13 @@ namespace TheCardGame
             int rndPos = new Random(DateTime.Now.Millisecond).Next(0, PlayersCards.Count);
             this.PlayersCards.Insert(rndPos, card);
 
-            RemovePairs(card);
+            return RemovePairs(card);
         }
 
 
-        public virtual void RemovePairs(Card cardFromPlayer)
+        public string RemovePairs(Card cardFromPlayer)
         {
+            string temp = string.Empty;
             foreach (Card card in PlayersCards.ToList())
             {
                 if (card.cardNumber == cardFromPlayer.cardNumber && card.cardType != cardFromPlayer.cardType)
@@ -54,11 +55,16 @@ namespace TheCardGame
                     Console.WriteLine("match with " + cardFromPlayer.cardNumber + " " + cardFromPlayer.cardType);
                     Console.WriteLine("");
                     Console.ForegroundColor = ConsoleColor.White;
+
+                    temp += "match with " + card.cardNumber + " " + card.cardType + "\n" +
+                            "match with " + cardFromPlayer.cardNumber + " " + cardFromPlayer.cardType;
+
                     // End Debug
                     PlayersCards.Remove(card);
                     PlayersCards.Remove(cardFromPlayer);
                 }
             }
+            return temp;
         }
 
         //public virtual void RemoveAllPairs()
