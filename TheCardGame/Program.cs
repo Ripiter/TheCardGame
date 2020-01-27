@@ -196,9 +196,11 @@ namespace TheCardGame
             }
         }
 
+        // To Do: move this to game and this returns the string
         static void ShowPlayerCardAmount()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
+            //cw(game.ShowPlayerCardAmount())
             for (int j = 0; j < game.Players.Count; j++)
             {
                 Console.WriteLine(game.Players[j].Name + " has " + game.Players[j].PlayersCards.Count + " card(s)");
