@@ -78,7 +78,6 @@ namespace TheCardGame
                     }
                 }
             }
-
             return temp;
         }
     }

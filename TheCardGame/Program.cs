@@ -5,29 +5,17 @@ namespace TheCardGame
 {
     class Program
     {
-        static List<Player> players;
+        static Game game;
         static bool gameOver = false;
         static void Main(string[] args)
         {
-            Game game = new Game();
-
-            players = new List<Player>
-            {
-                new Human("Peter"),
-                new Human("Rene")
-                //new Human("Marc"),
-                //new Human("Kenneth")
-                //new Human("Emil"),
-                //new Computer("Computer"),
-                //new Computer("Computer2")
-            };
-
+            game = new Game();
             StartMenu();
 
             game.Start();
-            game.Shufle(players);
+            game.Shufle();
 
-            Console.WriteLine(RemoveDuplicates());
+            Console.WriteLine(game.RemoveDuplicates());
 
             //PrintAllPlayersCards();
 
@@ -35,7 +23,7 @@ namespace TheCardGame
                 GameMenu();
 
 
-            Console.WriteLine("And tonight's biggest loser is " + players[0].Name);
+            Console.WriteLine("And tonight's biggest loser is " + game.Players[0].Name);
             Console.ReadKey();
         }
 
@@ -105,49 +93,35 @@ namespace TheCardGame
         }
         static void AddPlayerToList(Player player)
         {
-            players.Add(player);
-        }
-
-
-        /// <summary>
-        /// Removes all duplicates from all the players at the start of the game
-        /// </summary>
-        static string RemoveDuplicates()
-        {
-            string temp = string.Empty;
-            for (int i = 0; i < players.Count; i++)
-            {
-                temp += players[i].RemoveAllPairs();
-            }
-            return temp;
+            game.Players.Add(player);
         }
 
         static void GameMenu()
         {
             int nextPlayer = 1;
 
-            for (int i = 0; i < players.Count; i++)
+            for (int i = 0; i < game.Players.Count; i++)
             {
                 ShowPlayerCardAmount();
 
                 // Set next player in line
-                if (nextPlayer >= players.Count)
+                if (nextPlayer >= game.Players.Count)
                     nextPlayer = 0;
 
-                if (players[i].GetType() == typeof(Human))
+                if (game.Players[i].GetType() == typeof(Human))
                 {
-                    int cardPlace = UserInput(players[i], players[nextPlayer]);
-                    PrintMatches(players[i].TakeCard(players[nextPlayer], cardPlace));
+                    int cardPlace = UserInput(game.Players[i], game.Players[nextPlayer]);
+                    PrintMatches(game.Players[i].TakeCard(game.Players[nextPlayer], cardPlace));
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine("");
-                    Console.WriteLine(players[i].Name + " picked card from " + players[nextPlayer].Name);
+                    Console.WriteLine(game.Players[i].Name + " picked card from " + game.Players[nextPlayer].Name);
                     Console.ForegroundColor = ConsoleColor.White;
 
-                    int testRnd = new Random().Next(0, players[nextPlayer].PlayersCards.Count);
-                    PrintMatches(players[i].TakeCard(players[nextPlayer], testRnd));
+                    int testRnd = new Random().Next(0, game.Players[nextPlayer].PlayersCards.Count);
+                    PrintMatches(game.Players[i].TakeCard(game.Players[nextPlayer], testRnd));
                 }
                 nextPlayer++;
                 if (CheckForLooser() == true)
@@ -207,7 +181,7 @@ namespace TheCardGame
         {
             RemoveFinishedPlayers();
 
-            if (players.Count == 1)
+            if (game.Players.Count == 1)
                 return true;
 
             return false;
@@ -215,21 +189,19 @@ namespace TheCardGame
 
         static void RemoveFinishedPlayers()
         {
-            for (int i = 0; i < players.Count; i++)
+            for (int i = 0; i < game.Players.Count; i++)
             {
-                if (players[i].PlayersCards.Count == 0)
-                {
-                    players.Remove(players[i]);
-                }
+                if (game.Players[i].PlayersCards.Count == 0)
+                    game.Players.Remove(game.Players[i]);
             }
         }
 
         static void ShowPlayerCardAmount()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            for (int j = 0; j < players.Count; j++)
+            for (int j = 0; j < game.Players.Count; j++)
             {
-                Console.WriteLine(players[j].Name + " has " + players[j].PlayersCards.Count + " card(s)");
+                Console.WriteLine(game.Players[j].Name + " has " + game.Players[j].PlayersCards.Count + " card(s)");
             }
             Console.ForegroundColor = ConsoleColor.White;
         }
@@ -240,14 +212,14 @@ namespace TheCardGame
         /// </summary>
         static void PrintAllPlayersCards()
         {
-            for (int i = 0; i < players.Count; i++)
+            for (int i = 0; i < game.Players.Count; i++)
             {
-                for (int j = 0; j < players[i].PlayersCards.Count; j++)
+                for (int j = 0; j < game.Players[i].PlayersCards.Count; j++)
                 {
-                    Console.WriteLine(players[i].Name + " " +
-                                  players[i].PlayersCards[j].cardNumber + " " +
-                                  players[i].PlayersCards[j].cardType + " " +
-                                  players[i].PlayersCards[j].cardColor);
+                    Console.WriteLine(game.Players[i].Name + " " +
+                                  game.Players[i].PlayersCards[j].cardNumber + " " +
+                                  game.Players[i].PlayersCards[j].cardType + " " +
+                                  game.Players[i].PlayersCards[j].cardColor);
                 }
             }
         }
@@ -255,18 +227,18 @@ namespace TheCardGame
 
         static void PrintAllPlayers()
         {
-            for (int i = 0; i < players.Count; i++)
+            for (int i = 0; i < game.Players.Count; i++)
             {
-                Console.WriteLine(players[i].GetType() + " with name " + players[i].Name);
+                Console.WriteLine(game.Players[i].GetType() + " with name " + game.Players[i].Name);
             }
         }
 
         static void RemovePlayer(string playerName)
         {
-            for (int i = 0; i < players.Count; i++)
+            for (int i = 0; i < game.Players.Count; i++)
             {
-                if (players[i].Name == playerName)
-                    players.Remove(players[i]);
+                if (game.Players[i].Name == playerName)
+                    game.Players.Remove(game.Players[i]);
             }
         }
     }

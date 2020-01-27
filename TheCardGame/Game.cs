@@ -10,6 +10,23 @@ namespace TheCardGame
     {
         Random rnd = new Random(DateTime.Now.Millisecond);
         List<Card> cards = new List<Card>();
+        private List<Player> players;
+
+        public List<Player> Players
+        {
+            get { return players; }
+            set { players = value; }
+        }
+
+        public Game()
+        {
+            Players = new List<Player>
+            {
+                new Human("Peter"),
+                new Human("Rene"),
+                new Human("Marc")
+            };
+        }
 
         public void Start()
         {
@@ -40,17 +57,17 @@ namespace TheCardGame
         /// Deals all the cards to all players
         /// </summary>
         /// <param name="players"></param>
-        public void Shufle(List<Player> players)
+        public void Shufle()
         {
             RandomizeCards();
-            int playerCount = players.Count;
+            int playerCount = Players.Count;
             foreach (Card card in cards)
             {
                 if (playerCount == players.Count)
                     playerCount = 0;
 
-                int rndPlace = rnd.Next(0, players[playerCount].PlayersCards.Count);
-                players[playerCount].PlayersCards.Insert(rndPlace, card);
+                int rndPlace = rnd.Next(0, Players[playerCount].PlayersCards.Count);
+                Players[playerCount].PlayersCards.Insert(rndPlace, card);
                 playerCount++;
             }
         }
@@ -97,6 +114,19 @@ namespace TheCardGame
                     break;
             }
             return colorValue;
+        }
+
+        /// <summary>
+        /// Removes all duplicates from all the players at the start of the game
+        /// </summary>
+        public string RemoveDuplicates()
+        {
+            string temp = string.Empty;
+            for (int i = 0; i < Players.Count; i++)
+            {
+                temp += Players[i].RemoveAllPairs();
+            }
+            return temp;
         }
     }
 }
