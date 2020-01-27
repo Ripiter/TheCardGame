@@ -15,14 +15,7 @@ namespace TheCardGame
 
         public override string TakeCard(Player player, int cardNumber)
         {
-            return base.TakeCard(player, cardNumber);
+            return base.TakeCard(player, cardNumber - 1);
         }
-
-        //public override void RemovePairs(Card card)
-        //{
-        //    base.RemovePairs(card);
-        //}
-
-
     }
 }

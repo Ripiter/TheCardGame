@@ -18,11 +18,5 @@ namespace TheCardGame
         {
              return base.TakeCard(player, cardNumber);
         }
-
-        //public override void RemovePairs(Card cardFromPlayer)
-        //{
-        //    base.RemovePairs(cardFromPlayer);
-        //}
-
     }
 }

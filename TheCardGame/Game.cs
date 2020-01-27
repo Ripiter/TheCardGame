@@ -9,7 +9,7 @@ namespace TheCardGame
     class Game
     {
         Random rnd = new Random(DateTime.Now.Millisecond);
-        public List<Card> cards = new List<Card>();
+        List<Card> cards = new List<Card>();
 
         public void Start()
         {
@@ -36,6 +36,10 @@ namespace TheCardGame
             }
         }
 
+        /// <summary>
+        /// Deals all the cards to all players
+        /// </summary>
+        /// <param name="players"></param>
         public void Shufle(List<Player> players)
         {
             RandomizeCards();
@@ -52,6 +56,9 @@ namespace TheCardGame
             }
         }
 
+        /// <summary>
+        /// Randomizes cards in the card list
+        /// </summary>
         void RandomizeCards()
         {
             for (int i = 0; i < cards.Count; i++)
@@ -63,6 +70,12 @@ namespace TheCardGame
             }
         }
 
+        /// <summary>
+        /// Get color that fits with the type
+        /// <para>Diamonds are red spades are black and so on</para>
+        /// </summary>
+        /// <param name="colorId"></param>
+        /// <returns></returns>
         private int GetColor(int colorId)
         {
             int colorValue = 0;

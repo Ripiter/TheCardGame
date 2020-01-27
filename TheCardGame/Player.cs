@@ -32,7 +32,7 @@ namespace TheCardGame
         /// </summary>
         public virtual string TakeCard(Player player, int cardPlace)
         {
-            Card card = player.PlayersCards[cardPlace - 1];
+            Card card = player.PlayersCards[cardPlace];
 
             player.PlayersCards.Remove(card);
             int rndPos = new Random(DateTime.Now.Millisecond).Next(0, PlayersCards.Count);
@@ -49,17 +49,9 @@ namespace TheCardGame
             {
                 if (card.cardNumber == cardFromPlayer.cardNumber && card.cardType != cardFromPlayer.cardType)
                 {
-                    // Debug
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("match with " + card.cardNumber + " " + card.cardType);
-                    Console.WriteLine("match with " + cardFromPlayer.cardNumber + " " + cardFromPlayer.cardType);
-                    Console.WriteLine("");
-                    Console.ForegroundColor = ConsoleColor.White;
-
-                    temp += "match with " + card.cardNumber + " " + card.cardType + "\n" +
-                            "match with " + cardFromPlayer.cardNumber + " " + cardFromPlayer.cardType;
-
-                    // End Debug
+                    temp += "Match " + card.cardNumber + " " + card.cardType + "\n" +
+                            "with " + cardFromPlayer.cardNumber + " " + cardFromPlayer.cardType;
+                    
                     PlayersCards.Remove(card);
                     PlayersCards.Remove(cardFromPlayer);
                 }
@@ -67,46 +59,27 @@ namespace TheCardGame
             return temp;
         }
 
-        //public virtual void RemoveAllPairs()
-        //{
-        //    for (int i = 0; i < PlayersCards.ToList().Count; i++)
-        //    {
-        //        foreach (Card card in PlayersCards.ToList())
-        //        {
-        //            if (card.cardNumber == PlayersCards[i].cardNumber && card.cardType != PlayersCards[i].cardType)
-        //            {
-        //                // Debug
-        //                Console.WriteLine("Card from " + this.Name + " removed " + card.cardNumber + " " + card.cardType);
-        //                Console.WriteLine("Card from " + this.Name + " removed " + PlayersCards[i].cardNumber + " " + PlayersCards[i].cardType + " \n");
-        //                // End Debug
 
-        //                //remove pair
-        //                PlayersCards.Remove(PlayersCards[i]);
-        //                PlayersCards.Remove(card);
-        //            }
-        //        }
-        //    }
-        //}
-
-        public virtual void RemoveAllPairs()
+        public virtual string RemoveAllPairs()
         {
+            string temp = string.Empty;
             foreach (Card nCard in PlayersCards.ToList())
             {
                 foreach (Card card in PlayersCards.ToList())
                 {
                     if (card.cardNumber == nCard.cardNumber && card.cardType != nCard.cardType)
                     {
-                        // Debug
-                        Console.WriteLine("Card from " + this.Name + " removed " + card.cardNumber + " " + card.cardType);
-                        Console.WriteLine("Card from " + this.Name + " removed " + nCard.cardNumber + " " + nCard.cardType + " \n");
-                        // End Debug
-
-                        //remove pair
+                        temp += "Card from " + this.Name + " removed " + card.cardNumber + " " + card.cardType + "\n" +
+                                "Card from " + this.Name + " removed " + nCard.cardNumber + " " + nCard.cardType + "\n\n";
+                     
+                        //removes pair
                         PlayersCards.Remove(nCard);
                         PlayersCards.Remove(card);
                     }
                 }
             }
+
+            return temp;
         }
     }
 }
