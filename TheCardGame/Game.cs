@@ -49,7 +49,6 @@ namespace TheCardGame
                 if (playerCount == players.Count)
                     playerCount = 0;
 
-
                 int rndPlace = rnd.Next(0, players[playerCount].PlayersCards.Count);
                 players[playerCount].PlayersCards.Insert(rndPlace, card);
                 playerCount++;

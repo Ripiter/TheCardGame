@@ -13,15 +13,16 @@ namespace TheCardGame
 
             players = new List<Player>
             {
-                //new Human("Peter"),
-                //new Human("Rene"),
+                new Human("Peter"),
+                new Human("Rene")
                 //new Human("Marc"),
                 //new Human("Kenneth")
                 //new Human("Emil"),
-                new Computer("Computer"),
-                new Computer("Computer2")
+                //new Computer("Computer"),
+                //new Computer("Computer2")
             };
 
+            StartMenu();
 
             game.Start();
             game.Shufle(players);
@@ -37,6 +38,67 @@ namespace TheCardGame
             Console.WriteLine("And tonight's biggest loser is " + players[0].Name);
             Console.ReadKey();
         }
+
+        static void StartMenu()
+        {
+            Console.Clear();
+            bool isDone = false;
+            while(isDone == false)
+            {
+                Console.WriteLine("What you want to do" + 
+                                  "Add for adding player" +
+                                  "See to see all players in the game"+
+                                  "Remove to remove player");
+                string temp = Console.ReadLine().ToLower();
+                switch (temp)
+                {
+                    case "add":
+                        AddPlayerMenu();
+                        break;
+                    case "see":
+                        PrintAllPlayers();
+                        break;
+                    case "remove":
+                        Console.WriteLine("Insert name to remove");
+                        string toRemove = Console.ReadLine();
+                        RemovePlayer(toRemove);
+                        break;
+                    default:
+                        isDone = true;
+                        break;
+                }
+            }
+        }
+
+        static void AddPlayerMenu()
+        {
+            Console.WriteLine("Do you want to add a new player");
+            Console.WriteLine("Add Bot, Add Human or Default");
+            string userInput = Console.ReadLine().ToLower();
+
+            switch (userInput)
+            {
+                case "add bot":
+                    Console.WriteLine("Insert name");
+                    Player bot = new Computer(Console.ReadLine());
+                    AddPlayerToList(bot);
+                    break;
+                case "add human":
+                    Console.WriteLine("Insert name");
+                    Player human = new Human(Console.ReadLine());
+                    AddPlayerToList(human);
+                    break;
+                case "Default":
+                    break;
+                default:
+                    break;
+            }
+        }
+        static void AddPlayerToList(Player player)
+        {
+            players.Add(player);
+        }
+
 
         /// <summary>
         /// Removes all duplicates from all the players at the start of the game
@@ -57,12 +119,6 @@ namespace TheCardGame
 
             for (int i = 0; i < players.Count; i++)
             {
-                if (CheckForLooser() == true)
-                {
-                    gameOver = true;
-                    continue;
-                }
-
                 ShowPlayerCardAmount();
 
                 // Set next player in line
@@ -85,6 +141,11 @@ namespace TheCardGame
                     PrintMatches(players[i].TakeCard(players[nextPlayer], testRnd));
                 }
                 nextPlayer++;
+                if (CheckForLooser() == true)
+                {
+                    gameOver = true;
+                    continue;
+                }
             }
 
         }
@@ -101,28 +162,30 @@ namespace TheCardGame
             Console.ForegroundColor = ConsoleColor.White;
         }
 
+        /// <summary>
+        /// Yoink / Validate user input
+        /// </summary>
+        /// <param name="curPlayer"></param>
+        /// <param name="nextPlayer"></param>
+        /// <returns></returns>
         static int UserInput(Player curPlayer, Player nextPlayer)
         {
             int retValue = 0;
-            try
+            bool isValid = false;
+            while(isValid == false)
             {
                 Console.WriteLine("");
                 Console.WriteLine(curPlayer.Name + " pick card from " + nextPlayer.Name);
                 Console.WriteLine("Card from 1 to " + nextPlayer.PlayersCards.Count);
                 Console.Write("I pick: ");
-                retValue = int.Parse(Console.ReadLine());
 
                 // Check for user error in input
-                if (retValue <= nextPlayer.PlayersCards.Count && retValue > 0)
-                    return retValue;
-                else
-                    return UserInput(curPlayer, nextPlayer);
+                if(int.TryParse(Console.ReadLine(), out retValue))
+                {
+                    if(retValue > 0 && retValue <= nextPlayer.PlayersCards.Count)
+                        isValid = true;
+                }
             }
-            catch
-            {
-                return UserInput(curPlayer, nextPlayer);
-            }
-
             return retValue;
         }
 
@@ -177,6 +240,24 @@ namespace TheCardGame
                                   players[i].PlayersCards[j].cardType + " " +
                                   players[i].PlayersCards[j].cardColor);
                 }
+            }
+        }
+
+
+        static void PrintAllPlayers()
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                Console.WriteLine(players[i].GetType() +" with name " + players[i].Name );
+            }
+        }
+
+        static void RemovePlayer(string playerName)
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (players[i].Name == playerName)
+                    players.Remove(players[i]);
             }
         }
     }
