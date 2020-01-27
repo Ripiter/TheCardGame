@@ -41,14 +41,17 @@ namespace TheCardGame
 
         static void StartMenu()
         {
-            Console.Clear();
             bool isDone = false;
-            while(isDone == false)
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("On wrong input you will proccede to the game");
+            Console.ForegroundColor = ConsoleColor.White;
+            while (isDone == false)
             {
-                Console.WriteLine("What you want to do" + 
-                                  "Add for adding player" +
-                                  "See to see all players in the game"+
-                                  "Remove to remove player");
+                Console.WriteLine("What you want to do \n" +
+                                  "Add for adding player \n" +
+                                  "See to see all players in the game \n" +
+                                  "Remove to remove player \n" + 
+                                  "Done when u are done");
                 string temp = Console.ReadLine().ToLower();
                 switch (temp)
                 {
@@ -63,10 +66,16 @@ namespace TheCardGame
                         string toRemove = Console.ReadLine();
                         RemovePlayer(toRemove);
                         break;
+                    case "done":
+                        isDone = true;
+                        break;
                     default:
                         isDone = true;
                         break;
                 }
+
+                Console.ReadKey();
+                Console.Clear();
             }
         }
 
@@ -172,7 +181,7 @@ namespace TheCardGame
         {
             int retValue = 0;
             bool isValid = false;
-            while(isValid == false)
+            while (isValid == false)
             {
                 Console.WriteLine("");
                 Console.WriteLine(curPlayer.Name + " pick card from " + nextPlayer.Name);
@@ -180,9 +189,9 @@ namespace TheCardGame
                 Console.Write("I pick: ");
 
                 // Check for user error in input
-                if(int.TryParse(Console.ReadLine(), out retValue))
+                if (int.TryParse(Console.ReadLine(), out retValue))
                 {
-                    if(retValue > 0 && retValue <= nextPlayer.PlayersCards.Count)
+                    if (retValue > 0 && retValue <= nextPlayer.PlayersCards.Count)
                         isValid = true;
                 }
             }
@@ -248,7 +257,7 @@ namespace TheCardGame
         {
             for (int i = 0; i < players.Count; i++)
             {
-                Console.WriteLine(players[i].GetType() +" with name " + players[i].Name );
+                Console.WriteLine(players[i].GetType() + " with name " + players[i].Name);
             }
         }
 
