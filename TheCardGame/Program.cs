@@ -6,19 +6,20 @@ namespace TheCardGame
     class Program
     {
         static List<Player> players;
+        static bool gameOver = false;
         static void Main(string[] args)
         {
             Game game = new Game();
 
             players = new List<Player>
             {
-                new Human("Peter"),
-                new Human("Rene"),
-                new Human("Marc"),
+                //new Human("Peter"),
+                //new Human("Rene"),
+                //new Human("Marc"),
                 //new Human("Kenneth")
                 //new Human("Emil"),
-                new Computer("Computer")
-                //new Computer("Computer2")
+                new Computer("Computer"),
+                new Computer("Computer2")
             };
 
 
@@ -28,10 +29,12 @@ namespace TheCardGame
             Console.WriteLine(RemoveDuplicates());
 
             //PrintAllPlayersCards();
-            GameMenu();
-           
 
-            Console.WriteLine("And tonights bigest loser is " + players[0].Name);
+            while (gameOver == false)
+                GameMenu();
+
+
+            Console.WriteLine("And tonight's biggest loser is " + players[0].Name);
             Console.ReadKey();
         }
 
@@ -50,42 +53,40 @@ namespace TheCardGame
 
         static void GameMenu()
         {
-            bool gameOver = false;
             int nextPlayer = 1;
-            while (gameOver == false)
+
+            for (int i = 0; i < players.Count; i++)
             {
-                for (int i = 0; i < players.Count; i++)
+                if (CheckForLooser() == true)
                 {
-                    if (CheckForLooser() == true)
-                    {
-                        gameOver = true;
-                        continue;
-                    }
-
-                    ShowPlayerCardAmount();
-
-                    // Set next player in line
-                    if (nextPlayer >= players.Count)
-                        nextPlayer = 0;
-
-                    if (players[i].GetType() == typeof(Human))
-                    {
-                        int cardPlace = UserInput(players[i], players[nextPlayer]);
-                        PrintMatches(players[i].TakeCard(players[nextPlayer], cardPlace));
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine("");
-                        Console.WriteLine(players[i].Name + " picked card from " + players[nextPlayer].Name);
-                        Console.ForegroundColor = ConsoleColor.White;
-                        
-                        int testRnd = new Random().Next(0, players[nextPlayer].PlayersCards.Count);                        
-                        PrintMatches(players[i].TakeCard(players[nextPlayer], testRnd));
-                    }
-                    nextPlayer++;
+                    gameOver = true;
+                    continue;
                 }
+
+                ShowPlayerCardAmount();
+
+                // Set next player in line
+                if (nextPlayer >= players.Count)
+                    nextPlayer = 0;
+
+                if (players[i].GetType() == typeof(Human))
+                {
+                    int cardPlace = UserInput(players[i], players[nextPlayer]);
+                    PrintMatches(players[i].TakeCard(players[nextPlayer], cardPlace));
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine("");
+                    Console.WriteLine(players[i].Name + " picked card from " + players[nextPlayer].Name);
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    int testRnd = new Random().Next(0, players[nextPlayer].PlayersCards.Count);
+                    PrintMatches(players[i].TakeCard(players[nextPlayer], testRnd));
+                }
+                nextPlayer++;
             }
+
         }
 
         static void PrintMatches(string match)
