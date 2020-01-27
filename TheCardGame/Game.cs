@@ -22,9 +22,22 @@ namespace TheCardGame
         {
             Players = new List<Player>
             {
-                new Human("Peter"),
-                new Human("Rene"),
-                new Human("Marc")
+                //new Human("Peter"),
+                //new Human("Rene"),
+                //new Human("Marc")
+                new Computer("C1"),
+                new Computer("C2"),
+                new Computer("C3"),
+                new Computer("C4"),
+                new Computer("C5"),
+                new Computer("C6"),
+                new Computer("C7"),
+                new Computer("C8"),
+                new Computer("C9"),
+                new Computer("C10"),
+                new Computer("C11"),
+                new Computer("C12"),
+                new Computer("C13")
             };
         }
 
