@@ -106,7 +106,7 @@ namespace TheCardGame
 
             for (int i = 0; i < game.Players.Count; i++)
             {
-                //ShowPlayerCardAmount();
+                ShowPlayerCardAmount();
 
                 // Set next player in line
                 if (nextPlayer >= game.Players.Count)
@@ -121,7 +121,7 @@ namespace TheCardGame
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine("");
-                    //Console.WriteLine(game.Players[i].Name + " picked card from " + game.Players[nextPlayer].Name);
+                    Console.WriteLine(game.Players[i].Name + " picked card from " + game.Players[nextPlayer].Name);
                     Console.ForegroundColor = ConsoleColor.White;
 
                     int testRnd = new Random().Next(0, game.Players[nextPlayer].PlayersCards.Count);
