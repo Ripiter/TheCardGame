@@ -39,16 +39,19 @@ namespace TheCardGame
 
     class Card
     {
-        public CardNumber cardNumber;
-        public CardType cardType;
-        public CardColor cardColor;
+        private CardNumber number;
+        private CardType type;
+        private CardColor color;
 
         public Card(int number, int type, int color)
         {
-            cardNumber = (CardNumber)number;
-            cardType = (CardType)type;
-            cardColor = (CardColor)color;
+            Number = (CardNumber)number;
+            Type = (CardType)type;
+            Color = (CardColor)color;
         }
-        
+
+        public CardNumber Number { get => number; set => number = value; }
+        public CardType Type { get => type; set => type = value; }
+        public CardColor Color { get => color; set => color = value; }
     }
 }

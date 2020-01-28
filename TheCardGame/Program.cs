@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace TheCardGame
 {
@@ -38,8 +37,8 @@ namespace TheCardGame
                 Console.WriteLine("What you want to do \n" +
                                   "Add for adding player \n" +
                                   "See to see all players in the game \n" +
-                                  "Remove to remove player \n" + 
-                                  "Done when u are done");
+                                  "Remove to remove player \n" +
+                                  "start or done when u are done");
                 string temp = Console.ReadLine().ToLower();
                 switch (temp)
                 {
@@ -52,9 +51,12 @@ namespace TheCardGame
                     case "remove":
                         Console.WriteLine("Insert name to remove");
                         string toRemove = Console.ReadLine();
-                        RemovePlayer(toRemove);
+                        game.RemovePlayer(toRemove);
                         break;
                     case "done":
+                        isDone = true;
+                        break;
+                    case "start":
                         isDone = true;
                         break;
                     default:
@@ -91,9 +93,11 @@ namespace TheCardGame
                     break;
             }
         }
+
         static void AddPlayerToList(Player player)
         {
             game.Players.Add(player);
+            Console.WriteLine("Player Added");
         }
 
         static void GameMenu()
@@ -102,7 +106,7 @@ namespace TheCardGame
 
             for (int i = 0; i < game.Players.Count; i++)
             {
-                ShowPlayerCardAmount();
+                //ShowPlayerCardAmount();
 
                 // Set next player in line
                 if (nextPlayer >= game.Players.Count)
@@ -117,20 +121,19 @@ namespace TheCardGame
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine("");
-                    Console.WriteLine(game.Players[i].Name + " picked card from " + game.Players[nextPlayer].Name);
+                    //Console.WriteLine(game.Players[i].Name + " picked card from " + game.Players[nextPlayer].Name);
                     Console.ForegroundColor = ConsoleColor.White;
 
                     int testRnd = new Random().Next(0, game.Players[nextPlayer].PlayersCards.Count);
                     PrintMatches(game.Players[i].TakeCard(game.Players[nextPlayer], testRnd));
                 }
                 nextPlayer++;
-                if (CheckForLooser() == true)
+                if (game.CheckForLooser() == true)
                 {
                     gameOver = true;
                     continue;
                 }
             }
-
         }
 
         static void PrintMatches(string match)
@@ -172,39 +175,10 @@ namespace TheCardGame
             return retValue;
         }
 
-
-        /// <summary>
-        /// Removes finished players and check if there is 1 player left
-        /// </summary>
-        /// <returns></returns>
-        static bool CheckForLooser()
-        {
-            RemoveFinishedPlayers();
-
-            if (game.Players.Count == 1)
-                return true;
-
-            return false;
-        }
-
-        static void RemoveFinishedPlayers()
-        {
-            for (int i = 0; i < game.Players.Count; i++)
-            {
-                if (game.Players[i].PlayersCards.Count == 0)
-                    game.Players.Remove(game.Players[i]);
-            }
-        }
-
-        // To Do: move this to game and this returns the string
         static void ShowPlayerCardAmount()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            //cw(game.ShowPlayerCardAmount())
-            for (int j = 0; j < game.Players.Count; j++)
-            {
-                Console.WriteLine(game.Players[j].Name + " has " + game.Players[j].PlayersCards.Count + " card(s)");
-            }
+            Console.WriteLine(game.ShowPlayerCardAmount());
             Console.ForegroundColor = ConsoleColor.White;
         }
 
@@ -219,29 +193,16 @@ namespace TheCardGame
                 for (int j = 0; j < game.Players[i].PlayersCards.Count; j++)
                 {
                     Console.WriteLine(game.Players[i].Name + " " +
-                                  game.Players[i].PlayersCards[j].cardNumber + " " +
-                                  game.Players[i].PlayersCards[j].cardType + " " +
-                                  game.Players[i].PlayersCards[j].cardColor);
+                                  game.Players[i].PlayersCards[j].Number + " " +
+                                  game.Players[i].PlayersCards[j].Type + " " +
+                                  game.Players[i].PlayersCards[j].Color);
                 }
             }
         }
 
-
         static void PrintAllPlayers()
         {
-            for (int i = 0; i < game.Players.Count; i++)
-            {
-                Console.WriteLine(game.Players[i].GetType() + " with name " + game.Players[i].Name);
-            }
-        }
-
-        static void RemovePlayer(string playerName)
-        {
-            for (int i = 0; i < game.Players.Count; i++)
-            {
-                if (game.Players[i].Name == playerName)
-                    game.Players.Remove(game.Players[i]);
-            }
+            Console.WriteLine(game.PrintAllPlayers());
         }
     }
 }

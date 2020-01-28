@@ -47,10 +47,10 @@ namespace TheCardGame
             string temp = string.Empty;
             foreach (Card card in PlayersCards.ToList())
             {
-                if (card.cardNumber == cardFromPlayer.cardNumber && card.cardType != cardFromPlayer.cardType)
+                if (card.Number == cardFromPlayer.Number && card.Type != cardFromPlayer.Type)
                 {
-                    temp += "Match " + card.cardNumber + " " + card.cardType + "\n" +
-                            "with " + cardFromPlayer.cardNumber + " " + cardFromPlayer.cardType;
+                    temp += "Match " + card.Number + " " + card.Type + "\n" +
+                            "with " + cardFromPlayer.Number + " " + cardFromPlayer.Type;
                     
                     PlayersCards.Remove(card);
                     PlayersCards.Remove(cardFromPlayer);
@@ -67,10 +67,10 @@ namespace TheCardGame
             {
                 foreach (Card card in PlayersCards.ToList())
                 {
-                    if (card.cardNumber == nCard.cardNumber && card.cardType != nCard.cardType)
+                    if (card.Number == nCard.Number && card.Type != nCard.Type)
                     {
-                        temp += "Card from " + this.Name + " removed " + card.cardNumber + " " + card.cardType + "\n" +
-                                "Card from " + this.Name + " removed " + nCard.cardNumber + " " + nCard.cardType + "\n\n";
+                        temp += "Card from " + this.Name + " removed " + card.Number + " " + card.Type + "\n" +
+                                "Card from " + this.Name + " removed " + nCard.Number + " " + nCard.Type + "\n\n";
                      
                         //removes pair
                         PlayersCards.Remove(nCard);

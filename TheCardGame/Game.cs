@@ -54,7 +54,7 @@ namespace TheCardGame
                     // j is Type
                     Card card = new Card(i, j, GetColor(j));
 
-                    if (card.cardNumber == CardNumber.BlackPer)
+                    if (card.Number == CardNumber.BlackPer)
                     {
                         if(blackPerExists == false)
                             cards.Add(card);
@@ -140,6 +140,63 @@ namespace TheCardGame
                 temp += Players[i].RemoveAllPairs();
             }
             return temp;
+        }
+
+        public string ShowPlayerCardAmount()
+        {
+            string temp = string.Empty;
+            for (int j = 0; j < Players.Count; j++)
+            {
+                temp += Players[j].Name + " has " + Players[j].PlayersCards.Count + " card(s)\n";
+            }
+            return temp;
+        }
+
+        public string PrintAllPlayers()
+        {
+            string temp = string.Empty;
+            for (int i = 0; i < Players.Count; i++)
+            {
+               temp += Players[i].GetType() + " with name " + Players[i].Name + "\n";
+            }
+            return temp;
+        }
+
+        /// <summary>
+        /// Removes finished players and check if there is 1 player left
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckForLooser()
+        {
+            RemoveFinishedPlayers();
+
+            if (Players.Count == 1)
+                return true;
+
+            return false;
+        }
+
+        void RemoveFinishedPlayers()
+        {
+            for (int i = 0; i < Players.Count; i++)
+            {
+                if (Players[i].PlayersCards.Count == 0)
+                    Players.Remove(Players[i]);
+            }
+        }
+
+        /// <summary>
+        /// Removes a player from the list
+        /// Based on user input in menu
+        /// </summary>
+        /// <param name="playerName"></param>
+        public void RemovePlayer(string playerName)
+        {
+            for (int i = 0; i < Players.Count; i++)
+            {
+                if (Players[i].Name == playerName)
+                    Players.Remove(Players[i]);
+            }
         }
     }
 }
